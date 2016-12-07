@@ -37,11 +37,11 @@
         console.log('a = a - b = ' + a);
       b=b-c;
         console.log('b = b - c = ' + b);
-      c=a+b+c;
+      c=parseInt(a)+parseInt(b)+parseInt(c);
         console.log('c = a + b + c = ' + c);
-      a=c-a;
+      a=parseInt(c)-parseInt(a);
         console.log('a = c - a = ' + a);
-      b=a-b;
+      b=parseInt(a)-parseInt(b);
         console.log('b = a - b = ' + b);
       $('#result_a').val(a);
       $('#result_b').val(b);
