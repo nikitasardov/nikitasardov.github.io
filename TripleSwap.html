@@ -1,0 +1,57 @@
+<html>
+  <head>
+  <title>Triple Swap</title>
+  <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script>
+    $(document).ready(function () {
+      $('#calculate').click(function() {
+      var a = $('#input_a').val(),
+          b = $('#input_b').val(),
+          c = $('#input_c').val();
+      a = a - b;
+      b = b - c;
+      c = a + b + c;
+      a = c - a;
+      b = a - b;
+      $('#result_a').val(a);
+      $('#result_b').val(b);
+      $('#result_c').val(c);
+      });
+    })
+    </script>
+  </head>
+  <body>
+  <h3>Input</h3>
+  <button type="button">Swap!</button>
+  <p>
+    <span>a = </span>
+    <input type="text" id="input_a">
+  </p>
+  
+  <p>
+    <span>a = </span>
+    <input type="text" id="input_a">
+  </p>
+  
+  <p>
+    <span>a = </span>
+    <input type="text" id="input_a">
+  </p>
+  <h3>Result</h3>
+  <p>
+    <span>a = </span>
+    <input type="text" id="result_a">
+  </p>
+  
+  <p>
+    <span>a = </span>
+    <input type="text" id="relust_a">
+  </p>
+  
+  <p>
+    <span>a = </span>
+    <input type="text" id="result_a">
+  </p>
+  <a href="https://github.com/nikitasardov/nikitasardov.github.io/blob/master/TripleSwap.html" target="_blank">View source</a>
+  </body
+</hml>
