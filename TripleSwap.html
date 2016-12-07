@@ -39,18 +39,18 @@
     <script>
     $(document).ready(function () {
       $('#calculate').click(function() {
-      var a = $('#input_a').val(),
-          b = $('#input_b').val(),
-          c = $('#input_c').val();
-      a = +(a - b);
+      var a = parseFloat($('#input_a').val()).toFixed(1),
+          b = parseFloat($('#input_b').val()).toFixed(1),
+          c = parseFloat($('#input_c').val()).toFixed(1);
+      a = a - b;
         console.log('a = a - b = ' + a);
-      b = +(b - c);
+      b = b - c;
         console.log('b = b - c = ' + b);
-      c = +(a + b + c);
+      c = a + b + c;
         console.log('c = a + b + c = ' + c);
-      a = +(c - a);
+      a = c - a;
         console.log('a = c - a = ' + a);
-      b = +(a - b);
+      b = a - b;
         console.log('b = a - b = ' + b);
       $('#result_a').val(a);
       $('#result_b').val(b);
