@@ -33,15 +33,15 @@
       var a = parseFloat($('#input_a').val()).toFixed(1),
           b = parseFloat($('#input_b').val()).toFixed(1),
           c = parseFloat($('#input_c').val()).toFixed(1);
-      a = a - b;
+      a = parseFloat(a).toFixed(1) - parseFloat(b).toFixed(1);
         console.log('a = a - b = ' + a);
-      b = b - c;
+      b = parseFloat(b).toFixed(1) - parseFloat(c).toFixed(1);
         console.log('b = b - c = ' + b);
-      c = a + b + c;
+      c = parseFloat(a).toFixed(1) + parseFloat(b).toFixed(1) + parseFloat(c).toFixed(1);
         console.log('c = a + b + c = ' + c);
-      a = c - a;
+      a = parseFloat(c).toFixed(1) - parseFloat(a).toFixed(1);
         console.log('a = c - a = ' + a);
-      b = a - b;
+      b = parseFloat(a).toFixed(1) - parseFloat(b).toFixed(1);
         console.log('b = a - b = ' + b);
       $('#result_a').val(a);
       $('#result_b').val(b);
