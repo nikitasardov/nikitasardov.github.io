@@ -15,7 +15,8 @@
     <span>c = </span>
     <input type="text" id="input_c" value="3">
   </p>
-  <h3>Result&nbsp;&nbsp;<button id="calculate" type="button">Swap!</button></h3>
+  <h3>Result&nbsp;&nbsp;<button id="calculate" type="button">Swap!</button>
+    &nbsp;&nbsp;<button id="reload" type="button" style="display:none;">Load results to input</button></h3>
   <p>
     <span>a = </span>
     <input type="text" id="result_a">
@@ -46,6 +47,18 @@
       $('#result_a').val(a);
       $('#result_b').val(b);
       $('#result_c').val(c);
+        
+      $('#reload).fadeIn(500);
+      });
+        
+      $('#reload').click(function() {
+        $('#input_a').val($('#result_a').val()),
+        $('#input_b').val($('#result_b').val()),
+        $('#input_c').val($('#result_c').val());
+        
+        $('#result_a').val('');
+        $('#result_b').val('');
+        $('#result_c').val('');
       });
     })
     </script>
