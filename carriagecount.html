@@ -1,0 +1,174 @@
+<html>
+	<head>
+		<title>Carriage Count</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=500, initial-scale=.8"/>
+	</head>
+	<body style="margin: 0; padding: 0;font-family: Courier">
+	<!--input oninput=quickSort() /-->
+		<div id="results" style="margin: 0 auto; padding: 5px; display: block; position: relative; width: 750px; min-height: 200px; background-color: lightgreen">
+		<h3>Carriage Count</h3>
+		</div>
+		<div id="process" style="margin: 0 auto; padding: 5px; display: block; position: relative; width: 750px; min-height: 200px; background-color: lightblue">
+		</div>
+		<script>
+        var actions = 0;
+		window.onload = function() {
+			var arr = [],
+		        arrMax = getRandom(20,300),
+			    results = document.getElementById('results'),
+                process = document.getElementById('process');
+
+                results.div = function (content) {
+                this.appendChild(document.createElement("div")).innerHTML = content;};
+                process.div = function (content) {
+                this.appendChild(document.createElement("div")).innerHTML = content;
+            };
+
+            results.div('Поезд случайной длины. Кол-во вагонов: '+arrMax+'<br>В каждом вагоне горит или не горит лампочка:<br><br>');
+			arr = fillArr(arr,arrMax);
+            results.div(printInitial(arr));
+            results.div('<br>Красным выделено место зацикливания поезда');
+            arr = markEndAndHead(arr,arrMax);
+
+            process.div('<br>Пересчитываем вагоны:<br>В первых 8 вагонах выключаем свет<br>В вагонах с 9 по 16 включаем свет<br><br>');
+            process.div(countCarriages(arr));
+
+            process.div('Последние 16 вагонов - "начало" поезда<br>Все ок, если количество до и после совпадает');
+		};
+
+		function fillArr(arr,arrMax){
+
+			for (var i = 0; i < arrMax; i++) {
+				arr[i] = getRandom(0,1);
+			}
+
+            //"зацикливаем" поезд
+            for (i = 0; i <= 15; i++) {
+				arr.push(arr[i]);
+			}
+			return arr;
+		}
+
+        function markEndAndHead(arr) {
+            for (i = 0; i < arr.length; i++) {
+                actions++;
+                console.log('actions ',actions);
+                if (i>=0 && i<=7) arr[i] = 0; //если встретим подряд 8 вагонов без света, будем предполагать, что это конец поезда
+                if (i>=8 && i<=15) arr[i] = 1; //отметили начало поезда
+
+                //"зацикливаем" поезд
+                if (i>=(arr.length-16) && i<=(arr.length-9)) arr[i] = 0; //если встретим подряд 8 вагонов без света, будем предполагать, что это конец поезда
+                if (i>=(arr.length-8) && i<=arr.length) arr[i] = 1; //отметили начало поезда
+			}
+            return arr;
+        }
+
+        function headDetected(arr,i) {
+            var isHead = true;
+            for (c=(i-7);c<=(i);c++) {
+                actions++;
+                console.log('------');
+                console.log('actions ',actions);
+                console.log('arr ',arr);
+                console.log('i ',i);
+                console.log('c ',c);
+                console.log('Head? '+ arr[c]);
+                if (arr[c]!=1) {
+                    isHead = false;
+                    console.log('--not head. i=',i);
+                    return false;
+                } else console.log('--head element confirmed--');
+
+            }
+            if (isHead) {
+                console.log('--IS head. i=',i);
+                return true;
+            }
+        }
+
+        function tailDetected(arr,i) {
+            var isTail = true;
+            for (c=(i-15);c<=(i-8);c++) {
+                actions++;
+                console.log('------');
+                console.log('actions ',actions);
+                console.log('arr ',arr);
+                console.log('i ',i);
+                console.log('c ',c);
+                console.log('Tail? '+ arr[c]);
+                if (arr[c]!=0) {
+                    isTail = false;
+                    console.log('--not tail. i=',i);
+                    return false;
+                } else console.log('--tail element confirmed--');
+
+            }
+            if (isTail) {
+                console.log('--IS tail. i=',i);
+                return true;
+            }
+        }
+
+        function countCarriages(arr) {
+            var i = 0,
+                cn = 0;
+                printArr = '';
+
+            printArr += '[ ';
+            while (true) {
+                actions++;
+                console.log('actions ',actions);
+                printArr += arr[i]+'  ';
+
+                if ((i+1)%8==0) {
+                    printArr += '<span style="color:red">|</span>'+'  ';
+                    if ((i+1)%32==0) printArr += '<br>&nbsp;&nbsp;';
+                }
+
+                if (i>7) {
+                    cn++; //посчитали вагон. первые 8 i будем считать концом поезда. считаем вагоны с i=8
+                    console.log('i=',i);
+                    if (i>15) { //i>15 исключаем срабатывание при первом проходе
+                        var tD = tailDetected(arr,i), bD = headDetected(arr,i);
+                        if (tD&&bD) {
+                            console.log('tD&&bD confirmed. i=',i);
+                            cn -= 8; //вычитаем 8 повторно посчитанных вагонов
+                            console.log('counted: cn=',cn);
+                            break;
+                        }
+                    }
+                }
+
+                if (i == 310) break;
+                i++;
+            }
+            printArr = printArr + ' ] <br><br>Насчитали вагонов: '+cn;
+            console.log('actions~ ',actions);
+            return printArr;
+        }
+
+		function printInitial(arr) {
+			var i,
+                printArr = '';
+			printArr = printArr + '[ ';
+			for (i = 0; i < arr.length; i++) {
+				printArr += arr[i]+'  ';
+
+                //красим в красный повторяющееся "начало" поезда
+                if ((i+1)>=(arr.length-16)) printArr += '<div style="display:inline;color:red;font-weight:700">  ';
+                if ((i+1)%8==0 && (i+1)!=arr.length) {
+                    printArr += '<span style="color:red">|</span>'+'  ';
+                    if ((i+1)%32==0) printArr += '<br>&nbsp;&nbsp;';
+                }
+			}
+			printArr += ' </div>]';
+			return printArr;
+		}
+
+		function getRandom(min, max){
+			return Math.round(Math.random() * (max - min) + min);
+		}
+		</script>
+	</body>
+</html>
