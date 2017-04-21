@@ -121,11 +121,6 @@
                 console.log('actions ',actions);
                 printArr += arr[i]+'  ';
 
-                if ((i+1)%8==0) {
-                    printArr += '<span style="color:red">|</span>'+'  ';
-                    if ((i+1)%32==0) printArr += '<br>&nbsp;&nbsp;';
-                }
-
                 if (i>7) {
                     cn++; //посчитали вагон. первые 8 i будем считать концом поезда. считаем вагоны с i=8
                     console.log('i=',i);
@@ -138,6 +133,10 @@
                             break;
                         }
                     }
+                }
+                if ((i+1)%8==0) {
+                    printArr += '<span style="color:red">|</span>'+'  ';
+                    if ((i+1)%32==0) printArr += '<br>&nbsp;&nbsp;';
                 }
 
                 if (i == 310) break;
